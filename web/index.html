@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitXray — Zero-Install Live Codebase Decompiler & Execution Trace</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <a href="#" class="brand" id="brandReset">
+      <div class="brand-icon">⚛</div>
+      <div>
+        <div class="brand-title">GitXray</div>
+      </div>
+      <div class="brand-tagline">gitxray.dev</div>
+    </a>
+
+    <div class="repo-input-bar">
+      <span class="repo-prefix">gitxray.dev/</span>
+      <input type="text" id="repoInput" class="repo-input" placeholder="owner/repo (e.g. openclaw/openclaw)" value="openclaw/openclaw" spellcheck="false" autocomplete="off">
+      <button id="btnRunXray" class="btn-xray">⚡ X-Ray</button>
+    </div>
+
+    <div class="header-actions">
+      <button id="btnOpenBadgeModal" class="btn-badge">
+        <span>🏷</span> Embed Badge
+      </button>
+      <button id="btnOpenAgentsModal" class="btn-badge">
+        <span>🤖</span> .agents / CLAUDE.md
+      </button>
+      <a href="https://github.com/gitxray/gitxray" target="_blank" class="btn-badge" style="text-decoration: none;">
+        <span>★</span> Star on GitHub
+      </a>
+    </div>
+  </header>
+
+  <nav class="tabs-bar">
+    <button class="tab-btn active" data-tab="tab-graph">
+      <span>⚡</span> AST Graph & Gravity Wells
+    </button>
+    <button class="tab-btn" data-tab="tab-tracer">
+      <span>⏱</span> Live Execution Stepper (Python Tutor Mode)
+    </button>
+    <button class="tab-btn" data-tab="tab-unbox">
+      <span>📦</span> Unbox Mode (Build-From-Scratch)
+    </button>
+    <button class="tab-btn" data-tab="tab-blast">
+      <span>🛡</span> Blast-Radius Diff-Shield
+    </button>
+    <button class="tab-btn" data-tab="tab-vault">
+      <span>🏛</span> Architecture Vault (50 Repos)
+    </button>
+  </nav>
+
+  <main>
+    <!-- View 1: AST Graph & Gravity Wells -->
+    <div id="tab-graph" class="view-container active">
+      <div class="graph-view-wrapper">
+        <div class="graph-canvas-container">
+          <canvas id="graphCanvas"></canvas>
+          <div class="graph-overlay-stats">
+            <div>Repository: <strong id="statsRepoName">openclaw/openclaw</strong></div>
+            <div>Scanned Files: <strong id="statsNodesCount">28</strong> | Import Edges: <strong id="statsEdgesCount">34</strong></div>
+            <div>WASM Extraction Engine: <span style="color: var(--accent-emerald);">Active (0.4ms)</span></div>
+          </div>
+        </div>
+        <div class="gravity-drawer">
+          <div class="drawer-header">
+            <h3><span>⚛</span> Core Architectural Gravity Wells</h3>
+            <p>Calculated via PageRank, betweenness, and clustering centrality. Identifies the core 5% domain kernel.</p>
+          </div>
+          <div id="gravityWellsList" class="gravity-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View 2: Live Execution Scrubber (Python Tutor Mode) -->
+    <div id="tab-tracer" class="view-container">
+      <div class="tracer-view-wrapper">
+        <div class="tracer-main-pane">
+          <div class="tracer-code-pane">
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;" id="tracerActiveFileLabel">src/agent/loop.ts</div>
+            <pre id="tracerCodeBlock"></pre>
+          </div>
+          <div class="tracer-state-pane">
+            <div class="state-block">
+              <div class="state-block-title">Dynamic Call Stack</div>
+              <div id="tracerStackContainer"></div>
+            </div>
+            <div class="state-block">
+              <div class="state-block-title">In-Memory Variables & Diffs</div>
+              <div id="tracerVariablesContainer"></div>
+            </div>
+            <div class="state-block">
+              <div class="state-block-title">Simulated SQLite / Storage State</div>
+              <div id="tracerStorageContainer" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">
+                [No pending dirty mutations]
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-bar">
+          <div class="timeline-controls">
+            <button id="btnTracePrev" class="ctrl-btn" title="Step Backward">⏮</button>
+            <button id="btnTracePlay" class="ctrl-btn" title="Play/Pause">▶</button>
+            <button id="btnTraceNext" class="ctrl-btn" title="Step Forward">⏭</button>
+          </div>
+          <div class="timeline-slider-container">
+            <span class="step-label" id="traceStepCounter">Step 0 / 0</span>
+            <input type="range" id="traceSlider" class="timeline-slider" min="0" max="10" value="0">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View 3: Unbox Mode -->
+    <div id="tab-unbox" class="view-container">
+      <div class="unbox-view-wrapper">
+        <div class="stages-sidebar" id="stagesSidebar">
+          <!-- Dynamically populated stages -->
+        </div>
+        <div class="stage-playground">
+          <div class="playground-header">
+            <div>
+              <h2 id="playgroundStageTitle" style="font-size: 1.1rem; color: #fff;">Stage 0: The Core Loop Inception</h2>
+              <p id="playgroundStageObjective" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">
+                Implement the foundational kernel (<80 LOC).
+              </p>
+            </div>
+            <div>
+              <button id="btnVerifyCode" class="btn-verify">✔ Run Hard Invariant Tests</button>
+            </div>
+          </div>
+          <div class="playground-editor-container">
+            <textarea id="codeEditor" class="code-editor" spellcheck="false"></textarea>
+          </div>
+          <div class="verification-terminal" id="verificationTerminal">
+            <span style="color: var(--text-muted);">&gt; Ready for AST invariant verification. No LLM guesswork; tested via deterministic exit codes.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View 4: Blast-Radius Diff-Shield -->
+    <div id="tab-blast" class="view-container">
+      <div class="blast-view-wrapper">
+        <div>
+          <h2 style="font-size: 1.25rem;">Blast-Radius Diff-Shield & Invariant Inspector</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+            Computes transitive downstream dependency impacts before applying commits or merging pull requests.
+          </p>
+        </div>
+
+        <div class="blast-grid">
+          <div class="blast-metric-card">
+            <div class="blast-metric-label">Impact Severity</div>
+            <div id="blastSeverity" class="blast-metric-val" style="color: var(--accent-emerald);">LOW</div>
+          </div>
+          <div class="blast-metric-card">
+            <div class="blast-metric-label">Surface Impact</div>
+            <div id="blastPercent" class="blast-metric-val" style="color: var(--accent-cyan);">14.2%</div>
+          </div>
+          <div class="blast-metric-card">
+            <div class="blast-metric-label">Downstream Nodes Affected</div>
+            <div id="blastDownstreamCount" class="blast-metric-val">4</div>
+          </div>
+          <div class="blast-metric-card">
+            <div class="blast-metric-label">Changed Entrypoint</div>
+            <div id="blastEntrypoint" class="blast-metric-val" style="font-size: 1rem; color: var(--accent-amber); word-break: break-all;">src/agent/loop.ts</div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem;">
+          <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-primary);">Downstream Blast Traversal</h3>
+          <div id="blastTreeContainer" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View 5: 50 Legendary Repositories Vault -->
+    <div id="tab-vault" class="view-container">
+      <div class="vault-view-wrapper">
+        <div>
+          <h2 style="font-size: 1.25rem;">The Open-Source Architecture Vault</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+            50 legendary codebases pre-decompiled into interactive 10-minute courses. Click any card to launch its live AST and unbox curriculum.
+          </p>
+        </div>
+
+        <div class="vault-filters">
+          <button class="vault-filter-btn active" data-filter="all">All (50)</button>
+          <button class="vault-filter-btn" data-filter="AI & Autonomous Agents">AI & Agents (13)</button>
+          <button class="vault-filter-btn" data-filter="Frontend & UI Systems">Frontend & UI (12)</button>
+          <button class="vault-filter-btn" data-filter="Foundational Systems & Runtimes">Foundational Systems (13)</button>
+          <button class="vault-filter-btn" data-filter="Compilers & DevTools">Compilers & DevTools (12)</button>
+        </div>
+
+        <div id="vaultGrid" class="vault-grid">
+          <!-- Populated from ARCHITECTURE_VAULT -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: Embed SVG Badge -->
+  <div id="badgeModal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Embed GitXray Architecture Badge</h3>
+        <button class="btn-close" id="btnCloseBadgeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Embed this dynamic badge into your repository README, portfolio, or hackathon submission to give visitors 1-click live AST decompilation:</p>
+        <div style="margin: 1rem 0; text-align: center;" id="badgePreviewContainer"></div>
+        <div class="modal-pre" id="badgeMarkdownCode"></div>
+        <button class="btn-copy" id="btnCopyBadge">Copy Markdown Snippet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: .agents / CLAUDE.md Exporter -->
+  <div id="agentsModal" class="modal-backdrop">
+    <div class="modal-content" style="width: 720px;">
+      <div class="modal-header">
+        <h3>AI Agent Context Exporter (.agents / CLAUDE.md)</h3>
+        <button class="btn-close" id="btnCloseAgentsModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Drop this generated file into Claude Code, Cursor, Codex, or OpenCode to provide full structural AST awareness while slashing context token consumption by up to 98%:</p>
+        <div class="modal-pre" id="agentsPreOutput"></div>
+        <button class="btn-copy" id="btnCopyAgents">Copy CLAUDE.md</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

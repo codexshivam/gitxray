@@ -1,0 +1,18 @@
+name: 'GitXray Blast-Radius Diff Shield'
+description: 'Decompiles AST diffs and automatically posts visual blast-radius maps on Pull Requests'
+author: 'GitXray Core Contributors'
+inputs:
+  github-token:
+    description: 'GitHub Token for posting PR comments'
+    required: true
+    default: ${{ github.token }}
+  base-ref:
+    description: 'Target base branch for diff analysis'
+    required: false
+    default: 'main'
+runs:
+  using: 'node20'
+  main: 'dist/action.js'
+branding:
+  icon: 'activity'
+  color: 'cyan'

@@ -1,0 +1,45 @@
+{
+  "name": "gitxray",
+  "version": "1.0.0",
+  "description": "Zero-Install Live Codebase Decompiler, AST Graph Engine, and Build-Your-Own-X Learning Platform",
+  "main": "core/index.js",
+  "bin": {
+    "gitxray": "./bin/gitxray.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node bin/gitxray.js serve",
+    "test": "node --test test/*.test.js",
+    "inspect": "node bin/gitxray.js inspect",
+    "export-agents": "node bin/gitxray.js export-agents",
+    "lint": "node --check core/*.js bin/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitxray/gitxray.git"
+  },
+  "keywords": [
+    "code-visualization",
+    "build-your-own-x",
+    "developer-tools",
+    "tree-sitter",
+    "webassembly",
+    "webgpu",
+    "ai-agents",
+    "claude-code",
+    "system-design",
+    "computer-science",
+    "ast-analyzer",
+    "call-graph",
+    "blast-radius"
+  ],
+  "author": "GitXray Core Contributors",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/gitxray/gitxray/issues"
+  },
+  "homepage": "https://gitxray.dev",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
