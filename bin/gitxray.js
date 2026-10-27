@@ -178,7 +178,8 @@ function runVault() {
 }
 
 function runServe(port = 3000) {
-  const webDir = path.join(ROOT_DIR, 'web');
+  const publicDir = path.join(ROOT_DIR, 'public');
+  const webDir = fs.existsSync(publicDir) ? publicDir : path.join(ROOT_DIR, 'web');
   const server = http.createServer((req, res) => {
     let reqUrl = req.url.split('?')[0];
 

@@ -616,8 +616,18 @@ function setupEvents() {
   });
 }
 
+// Dynamic Host Setup
+function setupDynamicHost() {
+  const host = window.location.host || 'gitxray.shivm.co';
+  const brandTag = document.getElementById('brandTagline');
+  const prefixTag = document.getElementById('repoPrefix');
+  if (brandTag) brandTag.innerText = host;
+  if (prefixTag) prefixTag.innerText = `${host}/`;
+}
+
 // Bootstrap
 window.addEventListener('DOMContentLoaded', () => {
+  setupDynamicHost();
   setupCanvas();
   setupEvents();
   renderVaultGrid('all');
