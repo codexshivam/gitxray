@@ -1,0 +1,9 @@
+name: 'GitXray Blast-Radius Diff Shield'
+description: 'Posts visual blast-radius diff maps on Pull Requests'
+inputs:
+  github-token:
+    description: 'GitHub token'
+    required: true
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

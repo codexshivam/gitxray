@@ -7,18 +7,30 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run Test Suite
-        run: npm test
-      - name: Verify CLI Entrypoints
-        run: |
-          node bin/gitxray.js inspect
-          node bin/gitxray.js unbox
-          node bin/gitxray.js badge gitxray/gitxray
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.15.0
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile=false
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build all packages
+        run: pnpm run build
+
+      - name: Run all tests
+        run: pnpm run test

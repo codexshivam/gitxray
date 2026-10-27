@@ -1,0 +1,1 @@
+{"version":3,"file":"python.d.ts","sourceRoot":"","sources":["../../../src/parsing/adapters/python.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAiD,eAAe,EAAE,MAAM,gBAAgB,CAAC;AAEjH,qBAAa,aAAc,YAAW,eAAe;IACnD,IAAI,SAAY;IAChB,UAAU,WAAmB;IAE7B,KAAK,CAAC,QAAQ,EAAE,MAAM,EAAE,OAAO,EAAE,MAAM,GAAG,eAAe;CAkF1D"}

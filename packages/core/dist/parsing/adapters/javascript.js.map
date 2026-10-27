@@ -1,0 +1,1 @@
+{"version":3,"file":"javascript.js","sourceRoot":"","sources":["../../../src/parsing/adapters/javascript.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,iBAAiB,CAAC;AAEpD,MAAM,OAAO,iBAAkB,SAAQ,iBAAiB;IAC7C,IAAI,GAAG,YAAY,CAAC;IACpB,UAAU,GAAG,CAAC,KAAK,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,CAAC,CAAC;CACvD"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"typescript.d.ts","sourceRoot":"","sources":["../../../src/parsing/adapters/typescript.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAiD,eAAe,EAAE,MAAM,gBAAgB,CAAC;AAEjH,qBAAa,iBAAkB,YAAW,eAAe;IACvD,IAAI,SAAgB;IACpB,UAAU,WAAmC;IAE7C,KAAK,CAAC,QAAQ,EAAE,MAAM,EAAE,OAAO,EAAE,MAAM,GAAG,eAAe;CA+F1D"}
