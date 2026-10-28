@@ -11,4 +11,7 @@ export * from './graph/centrality.js';
 export * from './graph/ranking.js';
 export * from './trace/types.js';
 export * from './trace/python_tracer.js';
+export * from './unbox/types.js';
+export * from './unbox/verifier.js';
+export * from './unbox/generator.js';
 //# sourceMappingURL=index.d.ts.map

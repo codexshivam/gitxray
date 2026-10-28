@@ -6,7 +6,7 @@
 - **Phase 2: Graph + Ranking (core)** — Completed
 - **Phase 3: Web App Shell + Graph View (web)** — Completed
 - **Phase 4: Execution Tracing (Python Pyodide)** — Completed
-- **Phase 5: Unbox Mode** — Pending
+- **Phase 5: Unbox Mode** — Completed
 - **Phase 6: Explanations (Local AI)** — Pending
 - **Phase 7: Exporters + Viral Surfaces** — Pending
 - **Phase 8: Vault + README** — Pending
@@ -83,3 +83,21 @@
   - Created Vitest trace unit tests in `@gitxray/core` and Playwright e2e tests in `@gitxray/web`.
 - **Known Gaps / Stubbed**:
   - JS/TS tracer will follow in subsequent phases using the same trace schema.
+
+---
+
+### Phase 5: Unbox Mode (the signature feature)
+- **Status**: Completed
+- **What's Done**:
+  - Defined unbox data model and types (`UnboxCourse`, `Milestone`, `DeterministicCheck`, `CheckEvaluationResult`) in `@gitxray/core`.
+  - Built `DeterministicVerifier` with AST validation, symbol checks, pattern verification, and unit test execution without relying on LLMs for grading correctness.
+  - Built `UnboxGenerator` to partition ranked codebases into a Stage 0 Core Loop (minimal runnable implementation) plus 5-10 milestone stages based on topological stage ordering.
+  - Added curated, reviewed courses for benchmark repositories (`pallets/flask` and `expressjs/express`) in `@gitxray/vault`.
+  - Built full interactive Unbox Mode IDE workbench in `@gitxray/web`:
+    - Milestone stepper with status indicators (locked, in-progress, passed).
+    - Code editor with auto-indent, tab support, starter code reset, and solution inspection.
+    - Deterministic verification console with AST checks and real-time output reporting.
+    - Honest badge distinguishing human-curated vs auto-generated courses.
+  - Vitest test suite (`packages/core/test/unbox.test.ts`) covering generator, AST checks, pattern matching, test runner, and solution validation.
+  - Playwright e2e test (`packages/web/e2e/graph-view.spec.ts`) asserting that starter code with TODO markers fails verification and verified solution passes deterministically.
+- **Known Gaps / Stubbed**: None.

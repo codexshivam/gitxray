@@ -8,6 +8,9 @@
     "build": "tsc",
     "test": "vitest run"
   },
+  "dependencies": {
+    "@gitxray/core": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^22.8.1",
     "typescript": "^5.6.3",

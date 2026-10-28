@@ -1,12 +1,12 @@
 import React from 'react';
 import { AnalysisResult } from '../hooks/useRepoAnalysis';
-import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle } from 'lucide-react';
+import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle, PackageCheck } from 'lucide-react';
 
 interface RepoHeaderProps {
   analysis: AnalysisResult;
   selectedFile: string | null;
-  activeView: 'graph' | 'tracer';
-  onViewChange: (view: 'graph' | 'tracer') => void;
+  activeView: 'graph' | 'tracer' | 'unbox';
+  onViewChange: (view: 'graph' | 'tracer' | 'unbox') => void;
   onClearRepo: () => void;
 }
 
@@ -65,6 +65,17 @@ export function RepoHeader({
           >
             <PlayCircle size={13} />
             <span>Execution Stepper</span>
+          </button>
+          <button
+            onClick={() => onViewChange('unbox')}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors ${
+              activeView === 'unbox'
+                ? 'bg-brand-surface text-brand-cyan font-semibold shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <PackageCheck size={13} />
+            <span>Unbox Mode (Build It)</span>
           </button>
         </div>
 

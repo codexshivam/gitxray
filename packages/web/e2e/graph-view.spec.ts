@@ -70,4 +70,35 @@ test.describe('GitXray Web Shell & Graph View E2E', () => {
     await expect(page.locator('text=calc.py').first()).toBeVisible();
     await expect(page.locator('text=Depth:')).toBeVisible();
   });
+
+  test('unbox mode verifies student code deterministically and marks milestone complete', async ({ page }) => {
+    await page.goto('/?repo=pallets/flask');
+
+    // 1. Wait for canvas to be visible first
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 25000 });
+
+    // 2. Switch to Unbox Mode tab
+    const unboxTab = page.getByRole('button', { name: /Unbox Mode/ });
+    await expect(unboxTab).toBeVisible();
+    await unboxTab.click();
+
+    // 3. Verify course header and milestone list
+    await expect(page.locator('text=Build Flask from Scratch')).toBeVisible();
+    await expect(page.locator('text=Reviewed Course')).toBeVisible();
+    await expect(page.locator('text=Stage 0: The WSGI Dispatcher Core Loop')).toBeVisible();
+
+    // 4. Run Check on incomplete starter code -> expect failure
+    const checkBtn = page.getByRole('button', { name: /Run Hard Invariant Check/ });
+    await checkBtn.click();
+    await expect(page.locator('text=FAIL:')).toBeVisible();
+
+    // 5. Click Solution button to load working code
+    const solutionBtn = page.getByRole('button', { name: 'Solution' });
+    await solutionBtn.click();
+
+    // 6. Run Check on correct solution -> expect deterministic pass
+    await checkBtn.click();
+    await expect(page.locator('text=PASS: Deterministic Invariants Validated')).toBeVisible();
+    await expect(page.locator('text=Verified Complete')).toBeVisible();
+  });
 });

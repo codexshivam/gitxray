@@ -1,0 +1,1 @@
+{"version":3,"file":"verifier.d.ts","sourceRoot":"","sources":["../../src/unbox/verifier.ts"],"names":[],"mappings":"AAAA,OAAO,EACL,SAAS,EACT,qBAAqB,EACtB,MAAM,YAAY,CAAC;AAGpB,qBAAa,qBAAqB;IAChC,OAAO,CAAC,MAAM,CAAC,MAAM,CAAwB;IAE7C;;;OAGG;IACH,MAAM,CAAC,kBAAkB,CACvB,SAAS,EAAE,SAAS,EACpB,aAAa,EAAE,MAAM,EACrB,QAAQ,EAAE,MAAM,GACf,qBAAqB;CA6HzB"}

@@ -6,6 +6,7 @@ import { RankingsSidebar } from './components/RankingsSidebar';
 import { GraphCanvas } from './components/GraphCanvas';
 import { FileInspector } from './components/FileInspector';
 import { ExecutionStepper } from './components/ExecutionStepper';
+import { UnboxMode } from './components/UnboxMode';
 import { StatusOverlay } from './components/StatusOverlay';
 import { useRepoAnalysis } from './hooks/useRepoAnalysis';
 import {
@@ -28,7 +29,7 @@ export function App() {
     ref?: string;
   } | null>(() => getRepoFromBrowserUrl());
 
-  const [activeView, setActiveView] = useState<'graph' | 'tracer'>('graph');
+  const [activeView, setActiveView] = useState<'graph' | 'tracer' | 'unbox'>('graph');
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [maxNodes, setMaxNodes] = useState(20);
@@ -175,6 +176,21 @@ export function App() {
                   files={result.files}
                   activeFile={selectedFile || undefined}
                   onSelectFile={(f) => setSelectedFile(f)}
+                />
+              </div>
+            )}
+
+            {/* View 3: Unbox Mode (Build It From Scratch) */}
+            {activeView === 'unbox' && (
+              <div className="flex-1 flex relative overflow-hidden">
+                <UnboxMode
+                  repo={`${result.owner}/${result.repo}`}
+                  files={result.files}
+                  rankingResult={{
+                    rankedFiles: result.rankedFiles,
+                    stages: result.stages,
+                    gravityWells: result.rankedFiles.filter((rf) => !rf.isBoilerplate).slice(0, 3)
+                  }}
                 />
               </div>
             )}
