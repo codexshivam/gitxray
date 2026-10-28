@@ -73,3 +73,44 @@ export interface CoreGraphOutput {
   nodes: CoreGraphNode[];
   edges: CoreGraphEdge[];
 }
+
+export interface CentralityMetrics {
+  pageRank: number;
+  betweenness: number;
+  inDegree: number;
+  outDegree: number;
+}
+
+export interface RankedFileNode {
+  id: string;
+  language: string;
+  lineCount: number;
+  isBoilerplate: boolean;
+  score: number;
+  metrics: CentralityMetrics;
+  stage: number;
+}
+
+export interface RankingResult {
+  rankedFiles: RankedFileNode[];
+  stages: string[][];
+  gravityWells: RankedFileNode[];
+}
+
+export interface SymbolGraphNode {
+  id: string; // e.g. "app.py#process_data"
+  file: string;
+  name: string;
+  kind: SymbolKind;
+  line: number;
+}
+
+export interface SymbolGraphEdge {
+  source: string;
+  target: string;
+}
+
+export interface SymbolGraphOutput {
+  nodes: SymbolGraphNode[];
+  edges: SymbolGraphEdge[];
+}
