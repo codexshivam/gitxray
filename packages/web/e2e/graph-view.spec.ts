@@ -101,4 +101,38 @@ test.describe('GitXray Web Shell & Graph View E2E', () => {
     await expect(page.locator('text=PASS: Deterministic Invariants Validated')).toBeVisible();
     await expect(page.locator('text=Verified Complete')).toBeVisible();
   });
+
+  test('opens Socratic AI modal and Export Context modal with live badge and CLAUDE.md', async ({ page }) => {
+    await page.goto('/?repo=pallets/flask');
+
+    // Wait for workspace canvas
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 25000 });
+
+    // 1. Open AI Mentor modal
+    const aiBtn = page.getByRole('button', { name: /AI Mentor/ }).first();
+    await aiBtn.click();
+    await expect(page.locator('text=Socratic AI Explanations')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Settings' })).toBeVisible();
+
+    // Close AI modal
+    await page.getByRole('button', { name: 'Done' }).click();
+    await expect(page.locator('text=Socratic AI Explanations')).not.toBeVisible();
+
+    // 2. Open Export Context modal
+    const exportBtn = page.getByRole('button', { name: /Export Context/ });
+    await exportBtn.click();
+    await expect(page.locator('text=Export Architecture Context & Badges')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'CLAUDE.md' })).toBeVisible();
+    await expect(page.getByRole('button', { name: '.agents/skills.md' })).toBeVisible();
+    await expect(page.getByRole('button', { name: /SVG Architecture Badge/ })).toBeVisible();
+
+    // Switch to SVG Badge tab
+    const badgeTab = page.getByRole('button', { name: /SVG Architecture Badge/ });
+    await badgeTab.click();
+    await expect(page.locator('text=Live Badge Preview:')).toBeVisible();
+
+    // Verify Download File button is visible
+    await expect(page.getByRole('button', { name: 'Download File' })).toBeVisible();
+    await page.keyboard.press('Escape').catch(() => {});
+  });
 });

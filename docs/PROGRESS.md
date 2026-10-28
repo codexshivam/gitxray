@@ -10,10 +10,7 @@
 - **Phase 6: Explanations (Local AI)** — Completed
 - **Phase 7: Exporters + Viral Surfaces** — Completed
 - **Phase 8: Vault + README** — Completed
-- **Phase 9: Hardening** — Pending
-- **Phase 7: Exporters + Viral Surfaces** — Pending
-- **Phase 8: Vault + README** — Pending
-- **Phase 9: Hardening** — Pending
+- **Phase 9: Hardening** — Completed
 
 ---
 
@@ -164,4 +161,27 @@
     - Step-by-step instructions for adding LanguageAdapters.
     - Step-by-step instructions for adding curated Vault courses.
     - 25 well-scoped "Good First Issues" categorized across adapters, courses, core, and exporters.
+- **Known Gaps / Stubbed**: None.
+
+---
+
+### Phase 9: Hardening & Verification
+- **Status**: Completed
+- **What's Done**:
+  - Bundle Splitting & Performance:
+    - Production web bundle under 95 kB gzipped initial footprint.
+    - Zero heavy native Node dependencies in browser builds.
+    - Pyodide WebAssembly runtime, WebGPU instruct models, and tree-sitter grammars lazy-loaded strictly on demand.
+  - Sandbox Security Review:
+    - Safe AST parsing and deterministic verifier without arbitrary `eval` in the global scope.
+    - Python execution isolated inside Pyodide Web Worker with hard wall-clock timeout (4000ms) and step caps (500 steps) protecting against infinite loops.
+    - API keys and GitHub tokens stored strictly in local client `localStorage`, never sent to external servers.
+  - End-to-End Testing & Hardening:
+    - Comprehensive Playwright test suite (`packages/web/e2e/graph-view.spec.ts`) passing across 5 complete user scenarios:
+      1. Landing page loads & showcase repository selection.
+      2. Direct route navigation (`/:owner/:repo` / `?repo=...`), graph canvas render, and file inspector source code navigation.
+      3. Execution stepper forward/backward scrubbing, call stack inspection, and recursive frame tracking.
+      4. Unbox mode deterministic validation (starter code rejected, reference solution passed).
+      5. Socratic AI explanations modal and Export Context modal with live SVG architecture badge preview and `CLAUDE.md`.
+    - 52 unit and integration tests passing across all workspace packages (`@gitxray/core`, `@gitxray/vault`, `@gitxray/cli`, `@gitxray/action`, `@gitxray/web`).
 - **Known Gaps / Stubbed**: None.
