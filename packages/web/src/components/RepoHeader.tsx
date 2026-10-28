@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AnalysisResult } from '../hooks/useRepoAnalysis';
-import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle, PackageCheck } from 'lucide-react';
+import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle, PackageCheck, Sparkles } from 'lucide-react';
+import { AIExplanationModal } from './AIExplanationModal';
 
 interface RepoHeaderProps {
   analysis: AnalysisResult;
@@ -17,6 +18,7 @@ export function RepoHeader({
   onViewChange,
   onClearRepo
 }: RepoHeaderProps) {
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
   const topCore = analysis.rankedFiles[0];
 
   return (
@@ -112,7 +114,27 @@ export function RepoHeader({
           <Clock size={12} />
           <span>{analysis.executionDurationMs}ms</span>
         </div>
+
+        <button
+          onClick={() => setIsAIModalOpen(true)}
+          className="flex items-center gap-1 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 hover:text-cyan-300 border border-slate-700 transition-colors ml-1"
+          title="Configure AI Mentor (WebGPU / Gemini / Groq / Heuristics)"
+        >
+          <Sparkles size={12} />
+          <span>AI Mentor</span>
+        </button>
       </div>
+
+      <AIExplanationModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        requestContext={{
+          mode: 'architecture-explainer',
+          code: `// Repository: ${analysis.owner}/${analysis.repo}\n// Files count: ${analysis.graph.nodes.length}\n// Edges count: ${analysis.graph.edges.length}`,
+          language: 'markdown',
+          filePath: `${analysis.owner}/${analysis.repo}`
+        }}
+      />
     </div>
   );
 }

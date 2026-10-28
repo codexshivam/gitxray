@@ -14,4 +14,5 @@ export * from './trace/python_tracer.js';
 export * from './unbox/types.js';
 export * from './unbox/verifier.js';
 export * from './unbox/generator.js';
+export * from './ai/index.js';
 //# sourceMappingURL=index.js.map

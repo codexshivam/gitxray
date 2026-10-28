@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RankedFileNode, CoreGraphEdge } from '@gitxray/core';
-import { X, Code, GitFork, Copy, Check, FileText, Compass } from 'lucide-react';
+import { X, Code, GitFork, Copy, Check, FileText, Compass, Sparkles } from 'lucide-react';
+import { AIExplanationModal } from './AIExplanationModal';
 
 interface FileInspectorProps {
   filePath: string;
@@ -21,6 +22,7 @@ export function FileInspector({
 }: FileInspectorProps) {
   const [activeTab, setActiveTab] = useState<'code' | 'deps'>('code');
   const [copied, setCopied] = useState(false);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   // Inbound dependencies: edges pointing to filePath (filePath is imported by source)
   const inboundFiles = edges
@@ -140,14 +142,24 @@ export function FileInspector({
         {activeTab === 'code' && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-slate-500 text-[11px] pb-1">
-              <span>{filePath}</span>
-              <button
-                onClick={handleCopyCode}
-                className="flex items-center gap-1 hover:text-slate-300 transition-colors"
-              >
-                {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
-                <span>{copied ? 'Copied' : 'Copy'}</span>
-              </button>
+              <span className="truncate max-w-[200px]">{filePath}</span>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setIsAIModalOpen(true)}
+                  className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors"
+                  title="Explain role in architecture using Socratic AI"
+                >
+                  <Sparkles size={12} />
+                  <span>Explain Architecture</span>
+                </button>
+                <button
+                  onClick={handleCopyCode}
+                  className="flex items-center gap-1 hover:text-slate-300 transition-colors"
+                >
+                  {copied ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                </button>
+              </div>
             </div>
             <div className="bg-brand-dark rounded-lg border border-brand-border p-3 overflow-x-auto leading-relaxed">
               <table className="w-full border-collapse">
@@ -224,6 +236,17 @@ export function FileInspector({
           </div>
         )}
       </div>
+
+      <AIExplanationModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        requestContext={{
+          mode: 'architecture-explainer',
+          code: sourceCode,
+          language: filePath.endsWith('.py') ? 'python' : 'typescript',
+          filePath
+        }}
+      />
     </div>
   );
 }

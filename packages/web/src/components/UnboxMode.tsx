@@ -22,6 +22,7 @@ import {
   ChevronRight,
   ArrowRight
 } from 'lucide-react';
+import { AIExplanationModal } from './AIExplanationModal';
 
 interface UnboxModeProps {
   repo: string;
@@ -84,6 +85,7 @@ export function UnboxMode({ repo, files, rankingResult }: UnboxModeProps) {
   const [verificationResult, setVerificationResult] = useState<CheckEvaluationResult | null>(null);
   const [showHints, setShowHints] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   const activeMilestone: Milestone = course.milestones[activeMilestoneIndex] || course.milestones[0];
 
@@ -308,6 +310,15 @@ export function UnboxMode({ repo, files, rankingResult }: UnboxModeProps) {
                 <Eye size={13} />
                 <span>Solution</span>
               </button>
+
+              <button
+                onClick={() => setIsAIModalOpen(true)}
+                className="px-3 py-2 bg-brand-dark hover:bg-slate-850 border border-brand-border rounded text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1"
+                title="Ask Socratic AI Mentor for guided hints and architectural invariants"
+              >
+                <Sparkles size={13} className="text-cyan-400" />
+                <span>AI Mentor</span>
+              </button>
             </div>
 
             {/* Next Milestone Button */}
@@ -359,6 +370,21 @@ export function UnboxMode({ repo, files, rankingResult }: UnboxModeProps) {
           )}
         </div>
       </div>
+
+      <AIExplanationModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        requestContext={{
+          mode: 'socratic-hint',
+          code: userCode,
+          language: course.language.toLowerCase(),
+          filePath: activeMilestone.targetFile,
+          milestoneTitle: activeMilestone.title,
+          milestoneGoal: activeMilestone.description,
+          userSubmission: userCode,
+          errorFeedback: verificationResult && !verificationResult.passed ? verificationResult.feedback : undefined
+        }}
+      />
     </div>
   );
 }

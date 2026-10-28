@@ -1,0 +1,1 @@
+{"version":3,"file":"gemini_provider.d.ts","sourceRoot":"","sources":["../../src/ai/gemini_provider.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,kBAAkB,EAAE,mBAAmB,EAAE,MAAM,YAAY,CAAC;AAErE,qBAAa,yBAAyB;IACpC,OAAO,CAAC,MAAM,CAAC,QAAQ,CAAC,QAAQ,CAA8F;WAE1G,OAAO,CAAC,GAAG,EAAE,kBAAkB,EAAE,MAAM,EAAE,MAAM,GAAG,OAAO,CAAC,mBAAmB,CAAC;CA+DnG"}

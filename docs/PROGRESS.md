@@ -7,7 +7,8 @@
 - **Phase 3: Web App Shell + Graph View (web)** — Completed
 - **Phase 4: Execution Tracing (Python Pyodide)** — Completed
 - **Phase 5: Unbox Mode** — Completed
-- **Phase 6: Explanations (Local AI)** — Pending
+- **Phase 6: Explanations (Local AI)** — Completed
+- **Phase 7: Exporters + Viral Surfaces** — Pending
 - **Phase 7: Exporters + Viral Surfaces** — Pending
 - **Phase 8: Vault + README** — Pending
 - **Phase 9: Hardening** — Pending
@@ -100,4 +101,20 @@
     - Honest badge distinguishing human-curated vs auto-generated courses.
   - Vitest test suite (`packages/core/test/unbox.test.ts`) covering generator, AST checks, pattern matching, test runner, and solution validation.
   - Playwright e2e test (`packages/web/e2e/graph-view.spec.ts`) asserting that starter code with TODO markers fails verification and verified solution passes deterministically.
+- **Known Gaps / Stubbed**: None.
+
+---
+
+### Phase 6: Explanations (Local AI / WebGPU & Socratic Mentorship)
+- **Status**: Completed
+- **What's Done**:
+  - Implemented Socratic AI explanations module in `@gitxray/core` with pluggable providers (`template`, `webgpu`, `gemini`, `groq`).
+  - Strict Socratic guidelines: hints and questions guide reasoning without writing out solutions, leaving deterministic verification to Phase 5 checks.
+  - Zero-download offline fallback: `TemplateExplanationEngine` analyzes code AST, imports, exports, and milestone goals instantly without network or GPU requirements.
+  - Local AI via WebGPU: `WebGPUExplanationProvider` detects `navigator.gpu`, dynamically loads quantized models with download progress reporting, and keeps all weights cached locally.
+  - Bring Your Own Key (BYOK) for Google Gemini (`gemini-2.5-flash`) and Groq (`llama-3.1-8b-instant`); keys stored strictly in `localStorage` and never transmitted to GitXray servers.
+  - Built `AIExplanationModal` with tabbed advice and configuration drawer.
+  - Integrated Socratic AI buttons in `UnboxMode` (milestone hints) and `FileInspector` (architectural role breakdowns).
+  - Web package bundle kept ultra-compact (<280 kB production JS) with dynamic browser-native ESM loading.
+  - Vitest test suite (`packages/core/test/ai.test.ts`) validating templates, fallback behavior, missing keys, and WebGPU detection (6 tests passing).
 - **Known Gaps / Stubbed**: None.
