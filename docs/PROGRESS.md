@@ -9,7 +9,8 @@
 - **Phase 5: Unbox Mode** — Completed
 - **Phase 6: Explanations (Local AI)** — Completed
 - **Phase 7: Exporters + Viral Surfaces** — Completed
-- **Phase 8: Vault + README** — Pending
+- **Phase 8: Vault + README** — Completed
+- **Phase 9: Hardening** — Pending
 - **Phase 7: Exporters + Viral Surfaces** — Pending
 - **Phase 8: Vault + README** — Pending
 - **Phase 9: Hardening** — Pending
@@ -141,4 +142,26 @@
     - `packages/core/test/exporters.test.ts` (4 tests)
     - `packages/action/src/action.test.ts` (2 tests)
     - `packages/cli/src/cli.test.ts` (2 tests)
+- **Known Gaps / Stubbed**: None.
+
+---
+
+### Phase 8: Vault + README
+- **Status**: Completed
+- **What's Done**:
+  - Expanded `@gitxray/vault` to exactly 50 well-known open source repositories across AI/Agents (15), Frontend (18), and Backend (17) with gravity wells and Stage 0 summaries.
+  - Implemented 10 curated and reviewed Unbox courses with starter code, reference solutions, and deterministic unit-test invariant checks.
+  - Verified that all 10 curated courses pass deterministic verification in `packages/vault/src/vault.test.ts`.
+  - Re-wrote `README.md` strictly following `AGENTS.md` above-the-fold guidelines:
+    - One-sentence value proposition.
+    - 1-word URL rewrite rule (`github.com` -> `gitxray.dev`).
+    - Copy-paste quickstart for browser and CLI (`npx gitxray`).
+    - Complete 50-repository vault catalog table with 1-click live links.
+    - Zero fake engagement, star metrics grounded in real open-source repositories.
+    - Honest sandbox limitations disclosure.
+  - Created comprehensive `CONTRIBUTING.md` with:
+    - Monorepo development guide.
+    - Step-by-step instructions for adding LanguageAdapters.
+    - Step-by-step instructions for adding curated Vault courses.
+    - 25 well-scoped "Good First Issues" categorized across adapters, courses, core, and exporters.
 - **Known Gaps / Stubbed**: None.
