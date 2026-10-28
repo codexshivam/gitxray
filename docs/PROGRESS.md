@@ -5,7 +5,7 @@
 - **Phase 1: Repo Ingestion + Parsing (core)** — Completed
 - **Phase 2: Graph + Ranking (core)** — Completed
 - **Phase 3: Web App Shell + Graph View (web)** — Completed
-- **Phase 4: Execution Tracing (Python Pyodide)** — Pending
+- **Phase 4: Execution Tracing (Python Pyodide)** — Completed
 - **Phase 5: Unbox Mode** — Pending
 - **Phase 6: Explanations (Local AI)** — Pending
 - **Phase 7: Exporters + Viral Surfaces** — Pending
@@ -68,3 +68,18 @@
   - Token manager with `localStorage` persistence and rate-limit error overlay offering instant sample fallback.
   - Playwright and Vitest test suites verifying URL handling, sample loading, graph rendering, and code inspection.
 - **Known Gaps / Stubbed**: None.
+
+---
+
+### Phase 4: Execution Tracing (Python Pyodide)
+- **Status**: Completed
+- **What's Done**:
+  - Defined versioned trace schema (`TraceStep`, `StackFrame`, `VariableSnapshot`, `TraceRunOptions`, `TraceResult`) in `@gitxray/core`.
+  - Implemented Python execution tracer harness with `sys.settrace` capturing call, return, line events, frame locals snapshots, and return values.
+  - Implemented multi-file Python execution tracing across modules (`main.py` -> `service.py` -> `helper.py`).
+  - Added infinite loop & recursion guards with step cap (default 500) and wall-clock execution timeout (default 4000ms).
+  - Built `ExecutionStepper` UI in `@gitxray/web` with timeline scrubber (play/pause, step forward/backward, speed controls, step slider).
+  - Added active line pointer `▶` with highlighted code lines, Dynamic Call Stack panel, Variables & Scope inspector, and honest sandbox limitations banner.
+  - Created Vitest trace unit tests in `@gitxray/core` and Playwright e2e tests in `@gitxray/web`.
+- **Known Gaps / Stubbed**:
+  - JS/TS tracer will follow in subsequent phases using the same trace schema.

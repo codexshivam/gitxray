@@ -1,20 +1,28 @@
 import React from 'react';
 import { AnalysisResult } from '../hooks/useRepoAnalysis';
-import { GitBranch, Layers, Clock, AlertCircle } from 'lucide-react';
+import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle } from 'lucide-react';
 
 interface RepoHeaderProps {
   analysis: AnalysisResult;
   selectedFile: string | null;
+  activeView: 'graph' | 'tracer';
+  onViewChange: (view: 'graph' | 'tracer') => void;
   onClearRepo: () => void;
 }
 
-export function RepoHeader({ analysis, selectedFile, onClearRepo }: RepoHeaderProps) {
+export function RepoHeader({
+  analysis,
+  selectedFile,
+  activeView,
+  onViewChange,
+  onClearRepo
+}: RepoHeaderProps) {
   const topCore = analysis.rankedFiles[0];
 
   return (
     <div className="border-b border-brand-border bg-brand-surface/60 px-4 py-2 flex flex-wrap items-center justify-between gap-3 text-xs">
       {/* Left: Repo Identity & Breadcrumbs */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <div className="flex items-center gap-1.5 font-mono">
           <button
             onClick={onClearRepo}
@@ -32,6 +40,32 @@ export function RepoHeader({ analysis, selectedFile, onClearRepo }: RepoHeaderPr
               {analysis.ref}
             </span>
           )}
+        </div>
+
+        {/* View Switcher Tabs */}
+        <div className="flex items-center rounded-lg bg-brand-dark p-0.5 border border-brand-border">
+          <button
+            onClick={() => onViewChange('graph')}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors ${
+              activeView === 'graph'
+                ? 'bg-brand-surface text-brand-cyan font-semibold shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <Cpu size={13} />
+            <span>Architecture Graph</span>
+          </button>
+          <button
+            onClick={() => onViewChange('tracer')}
+            className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs transition-colors ${
+              activeView === 'tracer'
+                ? 'bg-brand-surface text-brand-cyan font-semibold shadow'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            <PlayCircle size={13} />
+            <span>Execution Stepper</span>
+          </button>
         </div>
 
         {/* Snapshot Badge if rate limited or offline */}

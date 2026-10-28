@@ -5,6 +5,7 @@ import { RepoHeader } from './components/RepoHeader';
 import { RankingsSidebar } from './components/RankingsSidebar';
 import { GraphCanvas } from './components/GraphCanvas';
 import { FileInspector } from './components/FileInspector';
+import { ExecutionStepper } from './components/ExecutionStepper';
 import { StatusOverlay } from './components/StatusOverlay';
 import { useRepoAnalysis } from './hooks/useRepoAnalysis';
 import {
@@ -27,6 +28,7 @@ export function App() {
     ref?: string;
   } | null>(() => getRepoFromBrowserUrl());
 
+  const [activeView, setActiveView] = useState<'graph' | 'tracer'>('graph');
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [maxNodes, setMaxNodes] = useState(20);
@@ -122,45 +124,60 @@ export function App() {
             <RepoHeader
               analysis={result}
               selectedFile={selectedFile}
+              activeView={activeView}
+              onViewChange={setActiveView}
               onClearRepo={handleClearRepo}
             />
 
-            {/* Split Workspace: Sidebar + Canvas + Inspector */}
-            <div className="flex-1 flex relative overflow-hidden">
-              {/* Left Rankings Sidebar */}
-              <RankingsSidebar
-                rankedFiles={result.rankedFiles}
-                selectedFile={selectedFile}
-                onSelectFile={(path) => setSelectedFile(path)}
-                isOpen={isSidebarOpen}
-                onToggle={() => setIsSidebarOpen((prev) => !prev)}
-              />
-
-              {/* Center Graph Canvas */}
-              <div className="flex-1 relative flex flex-col overflow-hidden">
-                <GraphCanvas
-                  nodes={result.graph.nodes}
-                  edges={result.graph.edges}
+            {/* View 1: Architecture Graph View */}
+            {activeView === 'graph' && (
+              <div className="flex-1 flex relative overflow-hidden">
+                {/* Left Rankings Sidebar */}
+                <RankingsSidebar
                   rankedFiles={result.rankedFiles}
-                  selectedNodeId={selectedFile}
-                  onSelectNode={(nodeId) => setSelectedFile(nodeId)}
-                  maxNodes={maxNodes}
-                  onMaxNodesChange={setMaxNodes}
+                  selectedFile={selectedFile}
+                  onSelectFile={(path) => setSelectedFile(path)}
+                  isOpen={isSidebarOpen}
+                  onToggle={() => setIsSidebarOpen((prev) => !prev)}
+                />
+
+                {/* Center Graph Canvas */}
+                <div className="flex-1 relative flex flex-col overflow-hidden">
+                  <GraphCanvas
+                    nodes={result.graph.nodes}
+                    edges={result.graph.edges}
+                    rankedFiles={result.rankedFiles}
+                    selectedNodeId={selectedFile}
+                    onSelectNode={(nodeId) => setSelectedFile(nodeId)}
+                    maxNodes={maxNodes}
+                    onMaxNodesChange={setMaxNodes}
+                  />
+                </div>
+
+                {/* Right File & Source Code Inspector */}
+                {selectedFile && (
+                  <FileInspector
+                    filePath={selectedFile}
+                    sourceCode={selectedSourceCode}
+                    fileRank={selectedFileRank}
+                    edges={result.graph.edges}
+                    onSelectNode={(nodeId) => setSelectedFile(nodeId)}
+                    onClose={() => setSelectedFile(null)}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* View 2: Live Execution Stepper (Python Tutor Mode) */}
+            {activeView === 'tracer' && (
+              <div className="flex-1 flex relative overflow-hidden">
+                <ExecutionStepper
+                  files={result.files}
+                  activeFile={selectedFile || undefined}
+                  onSelectFile={(f) => setSelectedFile(f)}
                 />
               </div>
-
-              {/* Right File & Source Code Inspector */}
-              {selectedFile && (
-                <FileInspector
-                  filePath={selectedFile}
-                  sourceCode={selectedSourceCode}
-                  fileRank={selectedFileRank}
-                  edges={result.graph.edges}
-                  onSelectNode={(nodeId) => setSelectedFile(nodeId)}
-                  onClose={() => setSelectedFile(null)}
-                />
-              )}
-            </div>
+            )}
           </div>
         )}
       </main>

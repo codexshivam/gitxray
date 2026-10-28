@@ -9,4 +9,6 @@ export * from './ingestion/github.js';
 export * from './graph/graph.js';
 export * from './graph/centrality.js';
 export * from './graph/ranking.js';
+export * from './trace/types.js';
+export * from './trace/python_tracer.js';
 //# sourceMappingURL=index.d.ts.map
