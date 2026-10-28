@@ -1,9 +1,22 @@
-name: 'GitXray Blast-Radius Diff Shield'
-description: 'Posts visual blast-radius diff maps on Pull Requests'
+name: 'GitXray Blast Radius Map'
+description: 'Posts an interactive architecture blast-radius graph on Pull Requests.'
+author: 'GitXray'
 inputs:
-  github-token:
-    description: 'GitHub token'
-    required: true
+  github_token:
+    description: 'GitHub token for commenting on PRs (defaults to GITHUB_TOKEN)'
+    required: false
+    default: ${{ github.token }}
+  enabled:
+    description: 'Whether to post blast radius comments'
+    required: false
+    default: 'true'
+  max_downstream:
+    description: 'Maximum number of downstream modules to show in Mermaid diagram'
+    required: false
+    default: '20'
 runs:
   using: 'node20'
   main: 'dist/index.js'
+branding:
+  icon: 'git-pull-request'
+  color: 'cyan'

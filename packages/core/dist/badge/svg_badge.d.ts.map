@@ -1,0 +1,1 @@
+{"version":3,"file":"svg_badge.d.ts","sourceRoot":"","sources":["../../src/badge/svg_badge.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,SAAS;IACxB,KAAK,EAAE,MAAM,CAAC;IACd,IAAI,EAAE,MAAM,CAAC;IACb,SAAS,EAAE,MAAM,CAAC;IAClB,UAAU,EAAE,MAAM,CAAC;IACnB,UAAU,CAAC,EAAE,MAAM,CAAC;IACpB,KAAK,CAAC,EAAE,MAAM,CAAC;CAChB;AAED,qBAAa,iBAAiB;WACd,aAAa,CAAC,IAAI,EAAE,SAAS,GAAG,MAAM;CAgCrD"}

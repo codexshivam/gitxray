@@ -1,0 +1,1 @@
+{"version":3,"file":"claude_md.d.ts","sourceRoot":"","sources":["../../src/exporters/claude_md.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,aAAa,EAAiB,MAAM,aAAa,CAAC;AAC5E,OAAO,EAAE,eAAe,EAAE,MAAM,YAAY,CAAC;AAG7C,qBAAa,gBAAgB;WACb,MAAM,CAClB,KAAK,EAAE,eAAe,EACtB,OAAO,EAAE,aAAa,EACtB,OAAO,EAAE,eAAe,GACvB,MAAM;CAgFV"}

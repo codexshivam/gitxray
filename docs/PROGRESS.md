@@ -8,7 +8,8 @@
 - **Phase 4: Execution Tracing (Python Pyodide)** — Completed
 - **Phase 5: Unbox Mode** — Completed
 - **Phase 6: Explanations (Local AI)** — Completed
-- **Phase 7: Exporters + Viral Surfaces** — Pending
+- **Phase 7: Exporters + Viral Surfaces** — Completed
+- **Phase 8: Vault + README** — Pending
 - **Phase 7: Exporters + Viral Surfaces** — Pending
 - **Phase 8: Vault + README** — Pending
 - **Phase 9: Hardening** — Pending
@@ -117,4 +118,27 @@
   - Integrated Socratic AI buttons in `UnboxMode` (milestone hints) and `FileInspector` (architectural role breakdowns).
   - Web package bundle kept ultra-compact (<280 kB production JS) with dynamic browser-native ESM loading.
   - Vitest test suite (`packages/core/test/ai.test.ts`) validating templates, fallback behavior, missing keys, and WebGPU detection (6 tests passing).
+- **Known Gaps / Stubbed**: None.
+
+---
+
+### Phase 7: Exporters + Viral Surfaces
+- **Status**: Completed
+- **What's Done**:
+  - Built `ClaudeMdExporter` in `@gitxray/core`: compiles dense, token-efficient architectural context containing summary statistics, gravity wells, PageRank/centrality table, entry points, topological stages DAG, and blast radius invariants for Claude Code / Antigravity agents.
+  - Built `AgentsSkillsExporter` in `@gitxray/core`: generates `.agents/skills.md` conforming to modern Agent Skills standards.
+  - Built `BlastRadiusCalculator` with BFS/DFS reverse adjacency traversal computing direct dependents and transitive downstream impact counts per file.
+  - Built `SvgBadgeGenerator` rendering modern SVG badges displaying live file count, stage count, and primary kernel for embedding in README files.
+  - Implemented GitHub Action (`packages/action`) in `action.yml` and `BlastRadiusAction`:
+    - Generates Mermaid diagram mapping PR changed files to affected downstream nodes.
+    - Uses sticky markdown tag `<!-- gitxray-blast-radius -->` to create or update a single PR comment without comment spam.
+    - Supports `enabled: false` opt-out and custom max downstream limits.
+  - Built CLI (`packages/cli`):
+    - `npx gitxray inspect [path]`: scans local directory, builds dependency graph, and prints PageRank/centrality ranking table.
+    - `npx gitxray export [path]`: exports `CLAUDE.md` and `.agents/skills.md` directly to disk.
+  - Built `ExportModal` in `@gitxray/web`: provides interactive tabbed viewer with 1-click clipboard copy and file download for `CLAUDE.md`, `.agents/skills.md`, and SVG badge markdown.
+  - Added unit test suites across all surfaces:
+    - `packages/core/test/exporters.test.ts` (4 tests)
+    - `packages/action/src/action.test.ts` (2 tests)
+    - `packages/cli/src/cli.test.ts` (2 tests)
 - **Known Gaps / Stubbed**: None.

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { AnalysisResult } from '../hooks/useRepoAnalysis';
-import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle, PackageCheck, Sparkles } from 'lucide-react';
+import { GitBranch, Layers, Clock, AlertCircle, Cpu, PlayCircle, PackageCheck, Sparkles, Download } from 'lucide-react';
 import { AIExplanationModal } from './AIExplanationModal';
+import { ExportModal } from './ExportModal';
 
 interface RepoHeaderProps {
   analysis: AnalysisResult;
@@ -19,6 +20,7 @@ export function RepoHeader({
   onClearRepo
 }: RepoHeaderProps) {
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const topCore = analysis.rankedFiles[0];
 
   return (
@@ -123,6 +125,15 @@ export function RepoHeader({
           <Sparkles size={12} />
           <span>AI Mentor</span>
         </button>
+
+        <button
+          onClick={() => setIsExportModalOpen(true)}
+          className="flex items-center gap-1 px-2.5 py-1 rounded bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 hover:text-white border border-cyan-500/40 transition-colors ml-1"
+          title="Export CLAUDE.md, .agents/skills.md, or SVG Badge"
+        >
+          <Download size={12} />
+          <span>Export Context</span>
+        </button>
       </div>
 
       <AIExplanationModal
@@ -133,6 +144,18 @@ export function RepoHeader({
           code: `// Repository: ${analysis.owner}/${analysis.repo}\n// Files count: ${analysis.graph.nodes.length}\n// Edges count: ${analysis.graph.edges.length}`,
           language: 'markdown',
           filePath: `${analysis.owner}/${analysis.repo}`
+        }}
+      />
+
+      <ExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        repo={`${analysis.owner}/${analysis.repo}`}
+        graph={analysis.graph}
+        ranking={{
+          rankedFiles: analysis.rankedFiles,
+          stages: analysis.stages,
+          gravityWells: analysis.rankedFiles.filter((f) => !f.isBoilerplate).slice(0, 5)
         }}
       />
     </div>

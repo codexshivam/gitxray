@@ -15,4 +15,7 @@ export * from './unbox/types.js';
 export * from './unbox/verifier.js';
 export * from './unbox/generator.js';
 export * from './ai/index.js';
+export * from './exporters/index.js';
+export * from './badge/svg_badge.js';
+
 
