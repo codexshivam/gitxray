@@ -1,10 +1,10 @@
 # GitXray Progress Log
 
 ## Phase Overview
-- **Phase 0: Scaffold** — In Progress
-- **Phase 1: Repo Ingestion + Parsing (core)** — In Progress
-- **Phase 2: Graph + Ranking (core)** — Pending
-- **Phase 3: Web App Shell + Graph View (web)** — Pending
+- **Phase 0: Scaffold** — Completed
+- **Phase 1: Repo Ingestion + Parsing (core)** — Completed
+- **Phase 2: Graph + Ranking (core)** — Completed
+- **Phase 3: Web App Shell + Graph View (web)** — Completed
 - **Phase 4: Execution Tracing (Python Pyodide)** — Pending
 - **Phase 5: Unbox Mode** — Pending
 - **Phase 6: Explanations (Local AI)** — Pending
@@ -52,3 +52,19 @@
   - Validated rankings on 3 benchmark fixtures (Flask, Express, and CLI tool) matching human expectations; documented in `docs/ranking-validation.md`.
 - **Known Gaps / Stubbed**:
   - Eigenvector, closeness, and clustering metrics intentionally skipped until later phases as instructed.
+
+---
+
+### Phase 3: Web App Shell + Graph View (web)
+- **Status**: Completed
+- **What's Done**:
+  - Configured Tailwind CSS, PostCSS, responsive design tokens, and custom scrollbar theme.
+  - Implemented client-side routing & URL parsing (`/:owner/:repo`, `?repo=owner/repo`, `#/owner/repo`, full GitHub URLs).
+  - Built Landing Page hero with 1-click showcase repository cards from `@gitxray/vault`.
+  - Implemented `useRepoAnalysis` hook streaming files into `@gitxray/core` parser, graph builder, centrality engine, and ranking pipeline.
+  - High-performance force-directed canvas graph renderer with Top-N node density slider (default 20), pan, zoom, auto-center, node drag, and glowing gravity well halos.
+  - Interactive file inspector drawer with source code line viewer and clickable bidirectional dependency traversal (inbound callers & outbound imports).
+  - Left collapsible sidebar ranking hierarchy displaying core kernels vs supporting modules.
+  - Token manager with `localStorage` persistence and rate-limit error overlay offering instant sample fallback.
+  - Playwright and Vitest test suites verifying URL handling, sample loading, graph rendering, and code inspection.
+- **Known Gaps / Stubbed**: None.
